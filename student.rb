@@ -4,13 +4,13 @@ require_relative 'person'
 class Student < Person
   attr_reader :classroom
   attr_accessor :type
+
   # constructor
-  def initialize(age, classroom, name = 'Unknown', parent_permission: true, type='Student')
+  def initialize(age, classroom, name = 'Unknown', type = 'Student', parent_permission: true)
     super(age, name, parent_permission)
     @classroom = classroom
     @type = type
   end
-
 
   # Mehod to play
   def play_hooky
