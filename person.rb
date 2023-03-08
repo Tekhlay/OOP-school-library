@@ -1,7 +1,9 @@
-requiere 'nameable'
+require 'nameable'
+
 class Person < Nameable
   attr_reader :id
   attr_accessor :name, :age
+
   def initialize(age, name = 'Unknown', parent_permission: true)
     @id = Random.rand(1..1000)
     @name = name
@@ -21,4 +23,5 @@ class Person < Nameable
 
   def correct_name
     @name
+  end
 end
