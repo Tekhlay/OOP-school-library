@@ -4,6 +4,8 @@ require_relative 'student'
 require_relative 'rental'
 
 class App
+    attr_accessor :book_lists, :user_lists, :rental_lists
+
     def initialize
         @book_lists = []
         @user_lists = []
@@ -28,7 +30,17 @@ class App
         age = gets.chomp
         print 'Name: '
         name = gets.chomp
-        student = Student.new(age, name)
+        puts 'Has parent permission? [y/n]'
+        parent_permission = gets.chomp
+        parent_permission = case parent_permission.downcase
+                            when 'y'   
+                                true
+                            else
+                                false
+                            end
+        puts 'Classroom:'
+        classroom = gets.chomp
+        student = Student.new(classroom, age, name, parent_permission)
         @user_lists.push(student)
         puts 'Person created successfully'
     end
@@ -40,7 +52,7 @@ class App
         name = gets.chomp
         print 'Specialization: '
         specialization = gets.chomp
-        teacher = Teacher.new(age, name, specialization)
+        teacher = Teacher.new(specialization, age, name, parent_permission: true)
         @user_lists.push(teacher)
         puts 'Person created successfully'
     end
@@ -66,7 +78,7 @@ class App
             puts "#{index}) [#{user.class}] Name: #{user.name}, ID: #{user.id}, Age: #{user.age}"
         end
         user_index = gets.chomp.to_i
-        print 'Date: '
+        print 'Date [yyyy/mm/dd]: '
         date = gets.chomp
         rental = Rental.new(date, @book_lists[book_index], @user_lists[user_index])
         @rental_lists.push(rental)
