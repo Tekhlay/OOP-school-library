@@ -1,7 +1,4 @@
 class Menu
-  def initialize
-  end
-
   def display_menu
     puts 'Welcome to School Library App!'
     puts ''

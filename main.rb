@@ -3,7 +3,7 @@ require_relative 'menu'
 
 def main
   app = App.new
- loop do
+  loop do
     menu = Menu.new
     menu.display_menu
 
@@ -28,6 +28,5 @@ def main
       puts 'That is not a valid option'
     end
   end
-
 end
 main
