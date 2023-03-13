@@ -40,9 +40,13 @@ class App
                         end
     puts 'Classroom:'
     classroom = gets.chomp
+    add_new_student(classroom, age, name, parent_permission)
+    puts 'Person created successfully'
+  end
+
+  def add_new_student(classroom, age, name, parent_permission)
     student = Student.new(classroom, age, name, parent_permission)
     @user_lists.push(student)
-    puts 'Person created successfully'
   end
 
   def create_teacher
@@ -52,9 +56,13 @@ class App
     name = gets.chomp
     print 'Specialization: '
     specialization = gets.chomp
-    teacher = Teacher.new(specialization, age, name, parent_permission: true)
-    @user_lists.push(teacher)
+    add_new_teacher(specialization, age, name, parent_permission: true)
     puts 'Person created successfully'
+  end
+
+  def add_new_teacher(specialization, age, name, parent_permission: true)
+    teacher = Teacher.new(specialization, age, name, parent_permission)
+    @user_lists.push(teacher)
   end
 
   def create_book
@@ -62,9 +70,13 @@ class App
     title = gets.chomp
     print 'Author: '
     author = gets.chomp
+    add_new_book(title, author)
+    puts 'Book created successfully'
+  end
+
+  def add_new_book(title, author)
     book = Book.new(title, author)
     @book_lists.push(book)
-    puts 'Book created successfully'
   end
 
   def create_rental
@@ -80,9 +92,13 @@ class App
     user_index = gets.chomp.to_i
     print 'Date [yyyy/mm/dd]: '
     date = gets.chomp
-    rental = Rental.new(date, @book_lists[book_index], @user_lists[user_index])
-    @rental_lists.push(rental)
+    add_new_rental(date, book_index, user_index)
     puts 'Rental created successfully'
+  end
+
+  def add_new_rental(date, book, person)
+    rental = Rental.new(date, @book_lists[book], @user_lists[person])
+    @rental_lists.push(rental)
   end
 
   def list_all_people
