@@ -4,7 +4,9 @@ require_relative 'menu'
 def main
   app = App.new
  loop do
-    Menu.new
+    menu = Menu.new
+    menu.display_menu
+
     option = gets.chomp
     case option
     when '1'
