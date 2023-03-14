@@ -1,3 +1,11 @@
 [
+  {
+    "Book": {
+      "title": "The hell in cell",
+      "author": "WWE",
+      "rentals": [
 
+      ]
+    }
+  }
 ]
