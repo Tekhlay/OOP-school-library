@@ -23,6 +23,7 @@ def main
       app.list_all_rentals_for_person_id
     when '7'
       puts 'Thank you for using this app!'
+      app.save_data
       exit
     else
       puts 'That is not a valid option'

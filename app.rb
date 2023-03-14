@@ -2,6 +2,7 @@ require_relative 'book'
 require_relative 'teacher'
 require_relative 'student'
 require_relative 'rental'
+require 'json'
 
 class App
   attr_accessor :book_lists, :user_lists, :rental_lists
@@ -120,5 +121,25 @@ class App
     @rental_lists.each do |rental|
       puts "Date: #{rental.date}, Book '#{rental.book.title}' by #{rental.book.author}" if rental.person.id == id
     end
+  end
+
+  def save_data
+    instance_variables.each do |var|
+      fname = var.to_s.delete('@').to_s + '.json'
+      data = []
+      instance_variable_get(var).each do |item|
+        hash = { item.class.to_s => to_hash(item) }
+        data.push(hash)
+      end
+      File.write("datasource/#{fname}", JSON.pretty_generate(data))
+    end
+  end
+
+  def to_hash(item)
+    hash = {}
+    item.instance_variables.each do |var|
+      hash[var.to_s.delete('@').to_s] = item.instance_variable_get(var)
+    end
+    hash
   end
 end

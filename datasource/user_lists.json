@@ -1,0 +1,15 @@
+[
+  {
+    "Student": {
+      "id": 81,
+      "name": "Teklay",
+      "age": "23",
+      "parent_permission": true,
+      "rentals": [
+
+      ],
+      "classroom": "B",
+      "type": "Student"
+    }
+  }
+]
