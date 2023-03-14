@@ -125,7 +125,7 @@ class App
 
   def save_data
     instance_variables.each do |var|
-      fname = var.to_s.delete('@').to_s + '.json'
+      fname = "#{var.to_s.delete('@')}.json"
       data = []
       instance_variable_get(var).each do |item|
         hash = { item.class.to_s => to_hash(item) }
