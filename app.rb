@@ -176,17 +176,17 @@ class App
     end
   end
 
-#   def read_rentals(file, book_file, user_file)
-#     puts "\n ********* Reading Rental List ********* \n"
-#     file.each do |item|
-#       date = item['Rental']['date']
-#       rented_book = item['Rental']['book']
-#       renter = item['Rental']['person']
-#       book = search_book(book_file, rented_book)
-#       user = search_user(user_file, renter)
-#       add_new_rental(date, book, user)
-#     end
-#   end
+  def read_rentals(file, book_file, user_file)
+    puts "\n ********* Reading Rental List ********* \n"
+    file.each do |item|
+      date = item['Rental']['date']
+      rented_book = item['Rental']['book']
+      renter = item['Rental']['person']
+      book = search_book(book_file, rented_book)
+      user = search_user(user_file, renter)
+      add_new_rental(date, book, user)
+    end
+  end
 
 #   def search_book(file, book)
 #     file = JSON.parse(file)
