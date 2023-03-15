@@ -203,13 +203,17 @@ def search_user(file, user)
   end
 end
   
-
   private
 
   def to_hash(item)
     hash = {}
-    item.instance_variables.each do |var|
-      hash[var.to_s.delete('@').to_s] = item.instance_variable_get(var)
+    item.instance_variables.map do |var|
+      value = item.instance_variable_get(var) 
+      if value.kind_of? Book or value.kind_of? Student or value.kind_of? Teacher or value.kind_of? Rental
+        hash[var.to_s.delete('@').to_s] = to_hash(item.instance_variable_get(var))
+      else
+        hash[var.to_s.delete('@').to_s] = item.instance_variable_get(var)
+      end
     end
     hash
   end
