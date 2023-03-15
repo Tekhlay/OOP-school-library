@@ -1,0 +1,27 @@
+[
+  {
+    "Student": {
+      "id": 231,
+      "name": "Teklay",
+      "age": "23",
+      "parent_permission": true,
+      "rentals": [
+
+      ],
+      "classroom": "B",
+      "type": "Student"
+    }
+  },
+  {
+    "Teacher": {
+      "id": 164,
+      "name": "Brhanu",
+      "age": "34",
+      "parent_permission": true,
+      "rentals": [
+
+      ],
+      "specialization": "IS"
+    }
+  }
+]
