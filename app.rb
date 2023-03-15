@@ -195,13 +195,13 @@ class App
     end
   end
 
-# def search_user(file, user)
-#   file = JSON.parse(file)
-#   file.each_with_index do |item, index|
-#     return index if index == item['Student']['id'] if item['Student']
-#     return index if index == item['Teacher']['id'] if item['Teacher']
-#   end
-# end
+def search_user(file, user)
+  file = JSON.parse(file)
+  file.each_with_index do |item, index|
+    return index if index == item['Student']['id'] if item['Student']
+    return index if index == item['Teacher']['id'] if item['Teacher']
+  end
+end
   
 
   private
