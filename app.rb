@@ -188,12 +188,12 @@ class App
     end
   end
 
-#   def search_book(file, book)
-#     file = JSON.parse(file)
-#     file.each_with_index do |item, index|
-#       return index if item['Book']['title'] == book['title'] && item['Book']['author'] == book['author']
-#     end
-#   end
+  def search_book(file, book)
+    file = JSON.parse(file)
+    file.each_with_index do |item, index|
+      return index if item['Book']['title'] == book['title'] && item['Book']['author'] == book['author']
+    end
+  end
 
 # def search_user(file, user)
 #   file = JSON.parse(file)
