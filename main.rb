@@ -1,8 +1,10 @@
 require_relative 'app'
 require_relative 'menu'
+require_relative 'create_directory'
 
 def main
   app = App.new
+  Dir.exist?('datasource') ? app.load_data : nil
   loop do
     menu = Menu.new
     menu.display_menu
@@ -23,6 +25,8 @@ def main
       app.list_all_rentals_for_person_id
     when '7'
       puts 'Thank you for using this app!'
+      create_directory
+      app.save_data
       exit
     else
       puts 'That is not a valid option'

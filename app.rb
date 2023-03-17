@@ -2,6 +2,7 @@ require_relative 'book'
 require_relative 'teacher'
 require_relative 'student'
 require_relative 'rental'
+require 'json'
 
 class App
   attr_accessor :book_lists, :user_lists, :rental_lists
@@ -97,7 +98,7 @@ class App
   end
 
   def add_new_rental(date, book, person)
-    rental = Rental.new(date, @book_lists[book], @user_lists[person])
+    rental = Rental.new(date, @book_lists[book.to_i], @user_lists[person.to_i])
     @rental_lists.push(rental)
   end
 
@@ -121,4 +122,100 @@ class App
       puts "Date: #{rental.date}, Book '#{rental.book.title}' by #{rental.book.author}" if rental.person.id == id
     end
   end
+
+  def save_data
+    instance_variables.each do |var|
+      fname = var.to_s.chomp('_lists').delete('@') + '.json'
+      data = []
+      instance_variable_get(var).each do |item|
+        hash = { item.class.to_s => to_hash(item) }
+        data.push(hash)
+      end
+      File.write("datasource/#{fname}", JSON.pretty_generate(data))
+    end
+  end
+
+  def load_data
+    instance_variables.each do |var|
+      fname = var.to_s.chomp('_lists').delete('@')
+
+      if File.exist?("datasource/#{fname}.json") && File.read("datasource/#{fname}.json") != ''
+        data = JSON.parse(File.read("datasource/#{fname}.json")) 
+        case fname
+        when 'book'
+          read_books(data)
+        when 'user'
+          read_people(data)
+        # when 'rental'
+        #   read_rentals(data, File.read('datasource/book.json'), File.read('datasource/user.json'))
+        end
+      end
+    end
+  end
+
+  def read_books(file)
+    puts "\n ********* Reading Book List ********* \n"
+    file.each do |item|
+      item.each do |key, value|
+        add_new_book(value['title'], value['author'])
+      end
+    end
+  end
+
+  def read_people(file)
+    puts "\n ********* Reading People List ********* \n"
+    file.each do |item|
+      item.each do |key, value|
+        case key
+        when 'Student'
+          add_new_student(value['classroom'], value['age'], value['name'], value['parent_permission'])
+        when 'Teacher'
+          add_new_teacher(value['specialization'], value['age'], value['name'])
+        end
+      end
+    end
+  end
+
+  def read_rentals(file, book_file, user_file)
+    puts "\n ********* Reading Rental List ********* \n"
+    file.each do |item|
+      date = item['Rental']['date']
+      rented_book = item['Rental']['book']
+      renter = item['Rental']['person']
+      book = search_book(book_file, rented_book)
+      user = search_user(user_file, renter)
+      add_new_rental(date, book, user)
+    end
+  end
+
+  def search_book(file, book)
+    file = JSON.parse(file)
+    file.each_with_index do |item, index|
+      return index if item['Book']['title'] == book['title'] && item['Book']['author'] == book['author']
+    end
+  end
+
+def search_user(file, user)
+  file = JSON.parse(file)
+  file.each_with_index do |item, index|
+    return index if index == item['Student']['id'] if item['Student']
+    return index if index == item['Teacher']['id'] if item['Teacher']
+  end
+end
+  
+  private
+
+  def to_hash(item)
+    hash = {}
+    item.instance_variables.map do |var|
+      value = item.instance_variable_get(var) 
+      if value.kind_of? Book or value.kind_of? Student or value.kind_of? Teacher or value.kind_of? Rental
+        hash[var.to_s.delete('@').to_s] = to_hash(item.instance_variable_get(var))
+      else
+        hash[var.to_s.delete('@').to_s] = item.instance_variable_get(var)
+      end
+    end
+    hash
+  end
+
 end
